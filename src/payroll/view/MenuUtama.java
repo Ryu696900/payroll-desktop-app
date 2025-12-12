@@ -163,7 +163,7 @@ public class MenuUtama extends javax.swing.JFrame {
     }//GEN-LAST:event_menuKeluarActionPerformed
 
     private void menuKaryawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuKaryawanActionPerformed
-        new FormDataJabatan ().setVisible(true);
+        new FormDataKaryawan ().setVisible(true);
     }//GEN-LAST:event_menuKaryawanActionPerformed
 
     private void menuAbsensiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbsensiActionPerformed
