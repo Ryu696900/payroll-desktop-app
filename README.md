@@ -1,10 +1,10 @@
-# PayRoll Sinergi 💰
+# PayRoll Desktop Apps 💰
 
 ![License](https://img.shields.io/badge/license-GPLv3-blue.svg)
 ![Java](https://img.shields.io/badge/language-Java-orange.svg)
 ![NetBeans](https://img.shields.io/badge/IDE-NetBeans-green.svg)
 
-**PayRoll Sinergi** adalah aplikasi desktop berbasis Java yang dirancang untuk mempermudah proses administrasi karyawan, pencatatan absensi, dan perhitungan gaji secara efisien. Aplikasi ini dibangun menggunakan NetBeans IDE dan database MySQL.
+**PayRoll Desktop Apps** adalah aplikasi desktop berbasis Java yang dirancang untuk mempermudah proses administrasi karyawan, pencatatan absensi, dan perhitungan gaji secara efisien. Aplikasi ini dibangun menggunakan NetBeans IDE dan database MySQL.
 
 ## 🌟 Fitur Utama
 
