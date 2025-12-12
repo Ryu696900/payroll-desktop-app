@@ -1,0 +1,13 @@
+# Abaikan folder hasil compile
+/build/
+/dist/
+
+# Abaikan file settingan pribadi NetBeans
+/nbproject/private/
+
+# Abaikan file temporary sistem
+Thumbs.db
+.DS_Store
+
+# Abaikan file Log (jika ada)
+*.log
