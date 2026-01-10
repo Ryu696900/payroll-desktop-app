@@ -92,6 +92,12 @@ private void tampilData() {
 
         jLabel4.setText("Gaji Pokok");
 
+        txtGajiPokok.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtGajiPokokKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("Tunjangan");
 
         jLabel6.setText(":");
@@ -178,12 +184,10 @@ private void tampilData() {
                                             .addComponent(jLabel9))))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
@@ -314,6 +318,10 @@ private void tampilData() {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         kosongkanForm();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void txtGajiPokokKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGajiPokokKeyReleased
+       
+    }//GEN-LAST:event_txtGajiPokokKeyReleased
 
     /**
      * @param args the command line arguments

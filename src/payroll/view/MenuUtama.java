@@ -54,7 +54,7 @@ public class MenuUtama extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Utama");
 
-        menuAplikasi.setText("Application");
+        menuAplikasi.setText("Aplikasi");
 
         menuLogin.setText("Login");
         menuLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,7 @@ public class MenuUtama extends javax.swing.JFrame {
 
         menuMaster.setText("Master Data");
 
-        menuJabatan.setText("Position Data");
+        menuJabatan.setText("Data Jabatan");
         menuJabatan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuJabatanActionPerformed(evt);
@@ -93,7 +93,7 @@ public class MenuUtama extends javax.swing.JFrame {
         });
         menuMaster.add(menuJabatan);
 
-        menuKaryawan.setText("Employee Data");
+        menuKaryawan.setText("Data Karyawan");
         menuKaryawan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuKaryawanActionPerformed(evt);
@@ -103,9 +103,9 @@ public class MenuUtama extends javax.swing.JFrame {
 
         jMenuBar1.add(menuMaster);
 
-        menuTransaksi.setText("Transaction");
+        menuTransaksi.setText("Transaksi");
 
-        menuAbsensi.setText("Presence");
+        menuAbsensi.setText("Absensi");
         menuAbsensi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAbsensiActionPerformed(evt);
@@ -113,7 +113,7 @@ public class MenuUtama extends javax.swing.JFrame {
         });
         menuTransaksi.add(menuAbsensi);
 
-        menuPenggajian.setText("Payroll");
+        menuPenggajian.setText("Penggajian");
         menuPenggajian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuPenggajianActionPerformed(evt);

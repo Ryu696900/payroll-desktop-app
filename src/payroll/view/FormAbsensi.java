@@ -16,10 +16,30 @@ import payroll.database.Koneksi;
  * @author Ryu
  */
 public class FormAbsensi extends javax.swing.JFrame {
-    private DefaultTableModel model;
-    
+private DefaultTableModel model;
+
+    private void aturLebarKolom() {
+        javax.swing.table.TableColumnModel columnModel = tableAbsensi.getColumnModel();
+        
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(1).setPreferredWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(100);
+        columnModel.getColumn(3).setPreferredWidth(150);
+        columnModel.getColumn(4).setPreferredWidth(80);
+        columnModel.getColumn(5).setPreferredWidth(80);
+        columnModel.getColumn(6).setPreferredWidth(150);
+        
+        tableAbsensi.getTableHeader().setResizingAllowed(true);
+    }
+
     private void tampilData() {
-        model = new DefaultTableModel();
+        model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
         model.addColumn("No");
         model.addColumn("Tanggal");
         model.addColumn("NIK");
@@ -28,13 +48,13 @@ public class FormAbsensi extends javax.swing.JFrame {
         model.addColumn("Status");
         model.addColumn("Keterangan");
         
-        tableAbsensi.setModel(model); // Set model ke tabel GUI
+        tableAbsensi.setModel(model);
 
         try {
             String sql = "SELECT * FROM absensi ORDER BY id DESC";
-            Connection conn = (Connection) Koneksi.configDB();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            java.sql.Connection conn = (java.sql.Connection) payroll.database.Koneksi.configDB();
+            java.sql.Statement st = conn.createStatement();
+            java.sql.ResultSet rs = st.executeQuery(sql);
             
             int no = 1;
             while (rs.next()) {
@@ -48,8 +68,9 @@ public class FormAbsensi extends javax.swing.JFrame {
                     rs.getString("keterangan")
                 });
             }
+            aturLebarKolom();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal load data: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal load data: " + e.getMessage());
         }
     }
     
@@ -66,7 +87,7 @@ public class FormAbsensi extends javax.swing.JFrame {
     public FormAbsensi() {
         initComponents();
         tampilData();
-        
+        aturLebarKolom();
         setLocationRelativeTo(null);
         java.time.LocalDate today = java.time.LocalDate.now();
         txtTanggal.setText(today.toString());
@@ -97,6 +118,8 @@ public class FormAbsensi extends javax.swing.JFrame {
         tableAbsensi = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         txtKeterangan = new javax.swing.JTextField();
+        btnTutup = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Absensi Karyawan");
@@ -141,7 +164,20 @@ public class FormAbsensi extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableAbsensi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableAbsensiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableAbsensi);
 
         jLabel6.setText("Keterangan");
@@ -152,14 +188,29 @@ public class FormAbsensi extends javax.swing.JFrame {
             }
         });
 
+        btnTutup.setText("Tutup");
+
+        btnHapus.setText("Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(btnHapus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTutup)
+                .addGap(82, 82, 82))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -183,8 +234,9 @@ public class FormAbsensi extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSimpan)
                                     .addComponent(btnCari)))
-                            .addComponent(txtKeterangan))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                            .addComponent(txtKeterangan))
+                        .addGap(0, 71, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +269,10 @@ public class FormAbsensi extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnTutup, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -245,37 +300,135 @@ public class FormAbsensi extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        try {
-            if (txtNIK.getText().isEmpty() || txtNama.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Data Karyawan belum diisi!");
+                try {
+        // 1. Validasi Input
+        if (txtNIK.getText().isEmpty() || txtNama.getText().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Harap cari data karyawan (NIK) terlebih dahulu!");
             return;
         }
 
-        String sql = "INSERT INTO absensi (tgl_absen, nik, nama_karyawan, kode_jabatan, status, keterangan) VALUES (?, ?, ?, ?, ?, ?)";
-        Connection conn = (Connection) Koneksi.configDB();
-        PreparedStatement pst = conn.prepareStatement(sql);
+        // 2. Siapkan Koneksi
+        java.sql.Connection conn = (java.sql.Connection) payroll.database.Koneksi.configDB();
 
-        pst.setString(1, txtTanggal.getText());
-        pst.setString(2, txtNIK.getText());
-        pst.setString(3, txtNama.getText());
-        pst.setString(4, txtJabatan.getText());
-        pst.setString(5, cmbStatus.getSelectedItem().toString());
-        pst.setString(6, txtKeterangan.getText());
+        // 3. LOGIKA CEK DUPLIKASI
+        // "Coba cari di database, apakah NIK ini sudah ada datanya di Tanggal ini?"
+        String sqlCek = "SELECT * FROM absensi WHERE nik = ? AND tgl_absen = ?";
+        java.sql.PreparedStatement pstCek = conn.prepareStatement(sqlCek);
+        pstCek.setString(1, txtNIK.getText());
+        pstCek.setString(2, txtTanggal.getText());
+        java.sql.ResultSet rs = pstCek.executeQuery();
 
-        pst.execute();
-        
-        JOptionPane.showMessageDialog(this, "Absensi Berhasil Disimpan!");
+        if (rs.next()) {
+            // --- KONDISI A: DATA SUDAH ADA (Update) ---
+            int jawab = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Karyawan ini sudah absen pada tanggal " + txtTanggal.getText() + ".\nApakah Anda ingin mengubah (Update) data absennya?", 
+                "Data Sudah Ada", 
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+            if (jawab == javax.swing.JOptionPane.YES_OPTION) {
+                String sqlUpdate = "UPDATE absensi SET status=?, keterangan=?, kode_jabatan=?, nama_karyawan=? WHERE nik=? AND tgl_absen=?";
+                java.sql.PreparedStatement pstUpdate = conn.prepareStatement(sqlUpdate);
+                
+                // Isi data baru
+                pstUpdate.setString(1, cmbStatus.getSelectedItem().toString());
+                pstUpdate.setString(2, txtKeterangan.getText());
+                pstUpdate.setString(3, txtJabatan.getText());
+                pstUpdate.setString(4, txtNama.getText());
+                
+                // Kunci pencarian (WHERE)
+                pstUpdate.setString(5, txtNIK.getText());
+                pstUpdate.setString(6, txtTanggal.getText());
+                
+                pstUpdate.executeUpdate();
+                javax.swing.JOptionPane.showMessageDialog(this, "Data Berhasil Diperbarui (Update)!");
+            } else {
+                return; // Jika pilih No, batalkan
+            }
+
+        } else {
+            // --- KONDISI B: DATA BELUM ADA (Insert Baru) ---
+            // (Ini adalah kode lama Anda)
+            String sqlInsert = "INSERT INTO absensi (tgl_absen, nik, nama_karyawan, kode_jabatan, status, keterangan) VALUES (?, ?, ?, ?, ?, ?)";
+            java.sql.PreparedStatement pstInsert = conn.prepareStatement(sqlInsert);
+
+            pstInsert.setString(1, txtTanggal.getText());
+            pstInsert.setString(2, txtNIK.getText());
+            pstInsert.setString(3, txtNama.getText());
+            pstInsert.setString(4, txtJabatan.getText());
+            pstInsert.setString(5, cmbStatus.getSelectedItem().toString());
+            pstInsert.setString(6, txtKeterangan.getText());
+
+            pstInsert.execute();
+            javax.swing.JOptionPane.showMessageDialog(this, "Absensi Baru Berhasil Disimpan!");
+        }
+
+        // 4. Refresh Tampilan
         tampilData();
-        kosongkanForm(); 
+        kosongkanForm();
         
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal Simpan: " + e.getMessage());
+        javax.swing.JOptionPane.showMessageDialog(this, "Gagal Proses: " + e.getMessage());
+        e.printStackTrace();
     }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKeteranganActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtKeteranganActionPerformed
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+    if (txtNIK.getText().isEmpty() || txtTanggal.getText().isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silakan klik data di tabel yang ingin dihapus!");
+        return;
+    }
+
+    // Konfirmasi Hapus
+    int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Yakin ingin menghapus data absensi ini?", 
+            "Konfirmasi Hapus", 
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+    if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+        try {
+            // Query hapus berdasarkan NIK DAN TANGGAL (Agar data hari lain tidak ikut terhapus)
+            String sql = "DELETE FROM absensi WHERE nik = ? AND tgl_absen = ?";
+            
+            java.sql.Connection conn = (java.sql.Connection) payroll.database.Koneksi.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            
+            pst.setString(1, txtNIK.getText());
+            pst.setString(2, txtTanggal.getText());
+            
+            int rowsAffected = pst.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Data Berhasil Dihapus");
+                tampilData();    // Refresh tabel
+                kosongkanForm(); // Bersihkan textfield
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal menghapus. Data mungkin sudah tidak ada.");
+            }
+            
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void tableAbsensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableAbsensiMouseClicked
+    int baris = tableAbsensi.getSelectedRow();
+    
+    if (baris != -1) {
+        // Kolom di model: 0=No, 1=Tanggal, 2=NIK, 3=Nama, 4=Jabatan, 5=Status, 6=Ket
+        
+        txtTanggal.setText(tableAbsensi.getValueAt(baris, 1).toString());
+        txtNIK.setText(tableAbsensi.getValueAt(baris, 2).toString());
+        txtNama.setText(tableAbsensi.getValueAt(baris, 3).toString());
+        txtJabatan.setText(tableAbsensi.getValueAt(baris, 4).toString());
+        cmbStatus.setSelectedItem(tableAbsensi.getValueAt(baris, 5).toString());
+        txtKeterangan.setText(tableAbsensi.getValueAt(baris, 6).toString());
+    }
+    }//GEN-LAST:event_tableAbsensiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -314,7 +467,9 @@ public class FormAbsensi extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnTutup;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

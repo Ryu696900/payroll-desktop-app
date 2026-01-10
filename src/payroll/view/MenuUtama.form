@@ -6,7 +6,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuAplikasi">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Application"/>
+            <Property name="text" type="java.lang.String" value="Aplikasi"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuLogin">
@@ -44,7 +44,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuJabatan">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Position Data"/>
+                <Property name="text" type="java.lang.String" value="Data Jabatan"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuJabatanActionPerformed"/>
@@ -52,7 +52,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuKaryawan">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Employee Data"/>
+                <Property name="text" type="java.lang.String" value="Data Karyawan"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuKaryawanActionPerformed"/>
@@ -62,12 +62,12 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuTransaksi">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Transaction"/>
+            <Property name="text" type="java.lang.String" value="Transaksi"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuAbsensi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Presence"/>
+                <Property name="text" type="java.lang.String" value="Absensi"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAbsensiActionPerformed"/>
@@ -75,7 +75,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuPenggajian">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Payroll"/>
+                <Property name="text" type="java.lang.String" value="Penggajian"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPenggajianActionPerformed"/>
